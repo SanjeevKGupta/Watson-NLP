@@ -1,0 +1,8 @@
+{
+    "MetadataVars": {
+        "IMAGE_NAME": "watson-nlp-runtime",
+        "CR_IBM_IMAGE_BASE": "$(CR_IBM_HOST)/$(CR_IBM_HOST_NAMESPACE)/$(EDGE_OWNER).$(EDGE_DEPLOY).watson-nlp-runtime",
+        "SERVICE_NAME": "$(EDGE_OWNER).$(EDGE_DEPLOY).watson-nlp-runtime",
+        "SERVICE_VERSION": "1.0.18"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "MetadataVars": {
+        "IMAGE_NAME": "client",
+        "CR_IBM_IMAGE_BASE": "$(CR_IBM_HOST)/$(CR_IBM_HOST_NAMESPACE)/$(EDGE_OWNER).$(EDGE_DEPLOY).client",
+        "SERVICE_NAME": "$(EDGE_OWNER).$(EDGE_DEPLOY).client",
+        "SERVICE_VERSION": "1.0.0"
+    }
+}

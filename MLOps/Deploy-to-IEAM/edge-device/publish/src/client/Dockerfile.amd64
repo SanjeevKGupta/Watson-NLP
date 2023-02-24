@@ -1,0 +1,18 @@
+# ***************************************************************** #
+# (C) Copyright IBM Corporation 2022.                               #
+#                                                                   #
+# The source code for this program is not published or otherwise    #
+# divested of its trade secrets, irrespective of what has been      #
+# deposited with the U.S. Copyright Office.                         #
+# ***************************************************************** #
+FROM python:3.7
+RUN pip install watson-nlp-runtime-client
+
+RUN wget https://github.com/ibm-build-lab/Watson-NLP/raw/main/MLOps/Watson-NLP-Container/Client/GrpcClient.py
+RUN wget https://github.com/ibm-build-lab/Watson-NLP/raw/main/MLOps/Watson-NLP-Container/Client/client.py
+
+WORKDIR /
+COPY service/ready.sh .
+RUN chmod +x /ready.sh
+
+CMD ["/ready.sh"]

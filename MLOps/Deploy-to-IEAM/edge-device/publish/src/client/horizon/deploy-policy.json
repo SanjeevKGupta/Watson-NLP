@@ -1,0 +1,24 @@
+{
+    "label": "deploy-policy-wnlp-runtime-client-$ARCH",
+    "description": "A deploy policy for WNLP runtime client on $ARCH",
+    "service": {
+	"name": "$EDGE_OWNER.$EDGE_DEPLOY.client",
+	"org": "$HZN_ORG_ID",
+	"arch": "$ARCH",
+	"serviceVersions": [
+	    {
+		"version": "1.0.0",
+		"priority":{}
+	    }
+	]
+    },
+    "properties": [
+    ],
+    "constraints": [
+	"owner == $EDGE_OWNER",
+	"deploy == $EDGE_DEPLOY",
+	"wnlp.runtime.client == true"
+    ],
+    "userInput": [
+    ]
+}

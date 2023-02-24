@@ -1,0 +1,23 @@
+{
+    "org": "$HZN_ORG_ID",
+    "label": "$SERVICE_NAME-$ARCH",
+    "url": "$SERVICE_NAME",
+    "version": "$SERVICE_VERSION",
+    "arch": "$ARCH",
+    "public": true,
+    "sharable": "singleton",
+    "requiredServices": [
+	{ "url": "$EDGE_OWNER.$EDGE_DEPLOY.watson-nlp-runtime", "org": "$HZN_ORG_ID", "version": "1.0.18", "versionRange": "1.0.18", "arch": "$ARCH" }
+    ],
+    "userInput": [
+	{ "name": "ACCEPT_LICENSE", "label": "", "type": "boolean", "defaultValue": "true" },
+	{ "name": "GRPC_SERVER_URL", "label": "", "type": "string", "defaultValue": "$EDGE_OWNER.$EDGE_DEPLOY.watson-nlp-runtime:8085" }
+    ],
+    "deployment": {
+	"services": {
+	    "$SERVICE_NAME": {
+		"image": "${CR_IBM_IMAGE_BASE}_${ARCH}:${SERVICE_VERSION}"
+	    }
+	}
+    }
+}
