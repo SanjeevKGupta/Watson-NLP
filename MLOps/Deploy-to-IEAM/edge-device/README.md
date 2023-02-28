@@ -1,4 +1,4 @@
-### Deploy MLOps containerized services using IEAM on edge device nodes
+### Deploy MLOps NLP containerized services using IEAM on edge device nodes
 
 Ref: 
 - https://developer.ibm.com/blogs/cheatsheet-for-watson-libraries/
