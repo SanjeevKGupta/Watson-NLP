@@ -2,7 +2,7 @@
   "properties": [
       { "name": "owner",  "value": "sg.edge" },
       { "name": "deploy",  "value": "watson.nlp" },
-      { "name": "wnlp-runtime", "value": true },
+      { "name": "wnlp.runtime.client", "value": true },
       { "name": "openhorizon.allowPrivileged", "value": true }
   ],
   "constraints": [
