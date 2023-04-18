@@ -1,4 +1,4 @@
-# Serve Watson MLP Models Using Knative Serving 
+# Serve Watson NLP Models Using Knative Serving 
 
 With IBM Watson NLP, IBM introduced a common library for natural language processing, document understanding, translation, and trust. IBM Watson NLP brings everything under one umbrella for consistency and ease of development and deployment. This tutorial walks you through the steps to serve pretrained Watson NLP models using Knative Serving in a Red Hat OpenShift cluster.
 
@@ -6,13 +6,17 @@ Knative Serving is an Open-Source Enterprise-level solution to build Serverless 
 
 In this tutorial you will create a Knative Service to run the Watson NLP Runtime. Pods of this Knative Service specify Watson NLP pretrained model images as init containers. These init containers run to completion before the main application starts in the Pod. They will provision models to the emptyDir volume of the Pod. When the Watson NLP Runtime container starts, it loads the models and begins serving them.
 
-Using approach allows for models to be kept in separate container images from the runtime container image. To change the set of served models you need only to update the Knative Service Manifest.
+Using this approach allows for models to be kept in separate container images from the runtime container image. To change the set of served models you need only to update the Knative Service Manifest.
+
+## Reference Architecture
+
+![Reference architecture for Knative deployment pattern.](images/knative.png) 
 
 ## Prerequisites
 
 - Install [Docker Desktop](https://docs.docker.com/get-docker/).
 - Ensure that you have access to an OpenShift Container Platform account with cluster administrator access. 
-  - For this tutorial, you can reserve a [Sandbox Environment](https://github.com/ibm-build-lab/Watson-NLP/tree/main/MLOps/reserve-openshift-sandbox).
+  - For this tutorial, IBMers and Business Partners can reserve a [Sandbox Environment](https://techzone.ibm.com/collection/watson-nlp-serving-nlp-models#tab-4). When you reserve this, a Project will be created for you in an OpenShift cluster. You will recieve an email with instructions on accessing the environment.
   - Alternatively, if you are using your own cluster, follow the instructions below to install Knative Serving.
     - [Install the OpenShift Serverless Operator](https://docs.openshift.com/container-platform/4.10/serverless/install/install-serverless-operator.html)
     - [Install Knative Serving](https://docs.openshift.com/container-platform/4.10/serverless/install/installing-knative-serving.html)
@@ -33,27 +37,21 @@ alias docker=podman
 
 The deployment approach that we use in this tutorial relies on capabilities of Knative Serving that are disabled by default. Below you will configure Knative Service to enable *init containers* and *empty directories*.
 
-Save `config-features` config map in your current directory.
-
-```bash
-oc get configmap/config-features -n knative-serving -o yaml > config-feature.yaml
-```
-
-Modify the configuration with your favourite editor by adding the following lines in the data section. Do not modify any other section and content.
+To apply the configuration, use the following command:
 
 ```yaml
-apiVersion: v1
-data:
-  kubernetes.podspec-init-containers: enabled
-  kubernetes.podspec-volumes-emptydir: enabled
-```
-
-There is an example file `deployment/config-feature.yaml` in deployment directory for your reference.
-
-Apply the configuration.
-
-```bash
-oc apply -f config-feature.yaml 
+kubectl apply -f - <<EOF
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+spec:
+  config:
+    features:
+      kubernetes.podspec-init-containers: "enabled"
+      kubernetes.podspec-volumes-emptydir: "enabled"
+EOF
 ```
 
 ### Step 2. Clone the GitHub Repository
@@ -114,11 +112,13 @@ oc get pods
 
 Pods belonging to the Knative Service should have the prefix `watson-nlp-kn`. Initially, there should be none. If you do see some, then wait for a minute or two and they will be  automatically terminated.
 
-Run following command in the background to trigger the Knative Service to start up Pods.
+Run following command to trigger the Knative Service to start up Pods.
   
 ```bash
-curl ${SERVICE_URL} &
+curl ${SERVICE_URL}
 ```
+
+Use `ctrl-c` to break out of the command.
 
 You can watch the Pods being created to in response to the request, and then later terminated, using the following command.
 
